@@ -16,10 +16,7 @@
 package org.cometd.client.transport;
 
 import java.io.IOException;
-import java.net.CookieManager;
-import java.net.CookiePolicy;
-import java.net.HttpCookie;
-import java.net.URI;
+import java.net.*;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -112,7 +109,8 @@ public class LongPollingTransport extends HttpClientTransport {
     @Override
     public void send(final TransportListener listener, final List<Message.Mutable> messages) {
         String url = getURL();
-        final URI uri = URI.create(url);
+        final URI uri = URI.create(url.replace("http://", "https://"));
+
         if (_appendMessageType && messages.size() == 1) {
             Message.Mutable message = messages.get(0);
             if (message.isMeta()) {
